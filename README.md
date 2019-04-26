@@ -4,26 +4,10 @@ Sage cache brings Laravel file cache to the Sage WordPress starter theme.
 
 ## Installation
 
-Add to your composer.json file:
-
-```json
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/psyao/sage-cache"
-        }
-    ],
-    "require": {
-        "psyao/sage-cache": "dev-master"
-    }
-}
-```
-
-Then update composer.
+Add to your composer dependencies:
 
 ```shell
-$ composer update
+$ composer require psyao/sage-cache
 ```
 
 Finally add at the end of 'lib/setup.php':
