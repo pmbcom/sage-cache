@@ -11,11 +11,11 @@ Add to your composer.json file:
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/pmbcom/sage-cache"
+            "url": "https://github.com/psyao/sage-cache"
         }
     ],
     "require": {
-        "pmbcom/sage-cache": "dev-master"
+        "psyao/sage-cache": "dev-master"
     }
 }
 ```

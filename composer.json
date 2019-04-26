@@ -1,17 +1,17 @@
 {
-  "name": "pmbcom/sage-cache",
+  "name": "psyao/sage-cache",
   "description": "Bring Laravel file caching to Sage 9",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "Steve Aguet",
-      "email": "saguet@pmbcom.ch"
+      "email": "psyaosan@gmail.com"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Pmbcom\\Sage\\Cache\\": "src/"
+      "Psyao\\Sage\\Cache\\": "src/"
     },
     "files": [
       "src/helpers.php"

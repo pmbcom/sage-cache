@@ -1,6 +1,6 @@
 <?php
 
-namespace Pmbcom\Sage\Cache;
+namespace Psyao\Sage\Cache;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Filesystem\Filesystem;
