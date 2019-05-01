@@ -10,10 +10,10 @@ Add to your composer dependencies:
 $ composer require psyao/sage-cache
 ```
 
-Finally add at the end of 'lib/setup.php':
+Add at the end of 'lib/setup.php':
 
 ```php
-$container  = sage();
-$cache_path = wp_upload_dir()['basedir'].'/cache/data';
-new \Pmbcom\Sage\Cache\CacheServiceProvider($container, $cache_path);
+$cacheProvider = new \Pmbcom\Sage\Cache\CacheServiceProvider(sage());
+$cacheProvider->register();
+$cacheProvider->boot();
 ```
