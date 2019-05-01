@@ -3,77 +3,38 @@
 namespace Psyao\Sage\Cache;
 
 use Illuminate\Cache\CacheManager;
-use Illuminate\Filesystem\Filesystem;
-use Roots\Sage\Container;
+use Illuminate\Support\ServiceProvider;
 
 /**
- * Class Loader
+ * Class CacheServiceProvider
  *
- * @package Pmbcom\Sage\Cache
+ * @package Psyao\Sage\Cache
  */
-class CacheServiceProvider
+class CacheServiceProvider extends ServiceProvider
 {
 
     /**
-     * @var \Roots\Sage\Container
-     */
-    protected $container;
-    /**
-     * @var string
-     */
-    protected $cachePath;
-
-    /**
-     * Loader constructor.
      *
-     * @param  \Roots\Sage\Container  $container
-     * @param string $cachePath
      */
-    public function __construct(Container $container, $cachePath)
+    public function register()
     {
-        $this->container = $container;
-        $this->cachePath = $cachePath;
+        $this->mergeConfigFrom(__DIR__.'/../config/cache.php', 'cache');
 
+        $this->app->bindIf('cache', function ($app) {
+            return new CacheManager($app);
+        }, true);
+
+        $this->app->bindIf('cache.store', function ($app) {
+            return (new CacheManager($app))->driver();
+        }, true);
+    }
+
+    /**
+     *
+     */
+    public function boot()
+    {
         $this->maybeMakeCacheDir();
-        $this->setConfig();
-        $this->registerFileSystem();
-        $this->registerCache();
-    }
-
-    /**
-     *
-     */
-    protected function setConfig()
-    {
-        $this->container['config']->set([
-            'cache.default'     => 'file',
-            'cache.stores.file' => [
-                'driver' => 'file',
-                'path'   => $this->cachePath,
-            ],
-        ]);
-    }
-
-    /**
-     *
-     */
-    protected function registerFileSystem()
-    {
-        $this->container->bindIf('files', function () {
-            return new Filesystem();
-        }, true);
-    }
-
-    /**
-     *
-     */
-    protected function registerCache()
-    {
-        $this->container->bindIf('cache', function (Container $container) {
-            $cacheManager = new CacheManager($container);
-
-            return $cacheManager->store();
-        }, true);
     }
 
     /**
@@ -81,8 +42,11 @@ class CacheServiceProvider
      */
     protected function maybeMakeCacheDir()
     {
-        if ( ! file_exists($this->cachePath)) {
-            wp_mkdir_p($this->cachePath);
+        $fs = $this->app['files'];
+        $cachePath = $this->app['config']->get('cache.stores.file.path');
+
+        if ( ! $fs->exists($cachePath)) {
+            $fs->makeDirectory($cachePath, 0755, true);
         }
     }
 
