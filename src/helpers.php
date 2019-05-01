@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 /**
  * @param  dynamic  key|key,default|data,expiration|null
  *
@@ -10,13 +11,14 @@ namespace App;
 function cache()
 {
     $arguments = func_get_args();
+    $cache     = \Roots\Sage\Container::getInstance()->makeWith('cache.store');
 
     if (empty($arguments)) {
-        return sage('cache');
+        return $cache;
     }
 
     if (is_string($arguments[0])) {
-        return sage('cache')->get(...$arguments);
+        return $cache->get(...$arguments);
     }
 
     if ( ! is_array($arguments[0])) {
@@ -31,5 +33,5 @@ function cache()
         );
     }
 
-    return sage('cache')->put(key($arguments[0]), reset($arguments[0]), $arguments[1]);
+    return $cache->put(key($arguments[0]), reset($arguments[0]), $arguments[1]);
 }
